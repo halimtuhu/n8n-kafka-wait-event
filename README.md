@@ -165,9 +165,8 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## Support
 
-- 🐛 **Issues**: [GitHub Issues](https://github.com/360teknologi/n8n-kafka-wait-event/issues)
-- 📧 **Email**: dev@360teknologi.com
-- 🌐 **Website**: [360teknologi.com](https://360teknologi.com)
+- 🐛 **Issues**: [GitHub Issues](https://github.com/halimtuhu/n8n-kafka-wait-event/issues)
+- 📧 **Email**: halimtuhuprasetyo@gmail.com
 
 ## Related
 
