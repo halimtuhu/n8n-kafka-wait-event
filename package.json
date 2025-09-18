@@ -28,7 +28,7 @@
   },
   "main": "index.js",
   "scripts": {
-    "build": "npx rimraf dist && tsc",
+    "build": "npx rimraf dist && tsc && cp nodes/KafkaWaitEvent/*.svg dist/nodes/KafkaWaitEvent/",
     "dev": "tsc --watch",
     "format": "prettier nodes --write",
     "lint": "eslint nodes package.json",
