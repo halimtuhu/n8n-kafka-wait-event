@@ -1,0 +1,67 @@
+{
+  "name": "n8n-nodes-kafka-wait-event",
+  "version": "1.0.0",
+  "description": "Kafka Wait Event node for n8n - Wait for specific Kafka events with timeout",
+  "keywords": [
+    "n8n-community-node-package",
+    "kafka",
+    "event",
+    "wait",
+    "timeout",
+    "message-queue"
+  ],
+  "license": "MIT",
+  "homepage": "https://github.com/360teknologi/n8n-kafka-wait-event#readme",
+  "author": {
+    "name": "360 Teknologi",
+    "email": "dev@360teknologi.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/360teknologi/n8n-kafka-wait-event.git"
+  },
+  "bugs": {
+    "url": "https://github.com/360teknologi/n8n-kafka-wait-event/issues"
+  },
+  "engines": {
+    "node": ">=20.15"
+  },
+  "main": "index.js",
+  "scripts": {
+    "build": "npx rimraf dist && tsc",
+    "dev": "tsc --watch",
+    "format": "prettier nodes --write",
+    "lint": "eslint nodes package.json",
+    "lintfix": "eslint nodes package.json --fix",
+    "prepublishOnly": "npm run build && npm run lint nodes package.json"
+  },
+  "files": [
+    "dist",
+    "index.js",
+    "README.md",
+    "LICENSE"
+  ],
+  "n8n": {
+    "n8nNodesApiVersion": 1,
+    "credentials": [],
+    "nodes": [
+      "dist/nodes/KafkaWaitEvent/KafkaWaitEvent.node.js"
+    ]
+  },
+  "devDependencies": {
+    "@typescript-eslint/parser": "~8.32.0",
+    "eslint": "^8.57.0",
+    "eslint-plugin-n8n-nodes-base": "^1.16.3",
+    "gulp": "^5.0.0",
+    "prettier": "^3.5.3",
+    "typescript": "^5.8.2"
+  },
+  "dependencies": {
+    "@kafkajs/confluent-schema-registry": "^3.8.0",
+    "jsonpath": "^1.1.1",
+    "kafkajs": "^2.2.4"
+  },
+  "peerDependencies": {
+    "n8n-workflow": "*"
+  }
+}
