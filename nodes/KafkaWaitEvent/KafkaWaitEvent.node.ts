@@ -35,8 +35,8 @@ export class KafkaWaitEvent implements INodeType {
 				name: 'topicName',
 				type: 'string',
 				default: '',
-				placeholder: 'my-topic',
-				description: 'Name of the Kafka topic to listen to',
+				placeholder: 'my-topic or {{$json.topicName}}',
+				description: 'Name of the Kafka topic to listen to. Supports expressions.',
 				required: true,
 			},
 			{
@@ -44,7 +44,8 @@ export class KafkaWaitEvent implements INodeType {
 				name: 'groupId',
 				type: 'string',
 				default: 'n8n-kafka-wait-event',
-				description: 'Consumer group ID for this instance',
+				placeholder: 'my-group or {{$json.userId}}-group',
+				description: 'Consumer group ID for this instance. Supports expressions for dynamic grouping.',
 				required: true,
 			},
 			{
@@ -52,7 +53,8 @@ export class KafkaWaitEvent implements INodeType {
 				name: 'timeoutSeconds',
 				type: 'number',
 				default: 30,
-				description: 'Maximum time to wait for a message (in seconds)',
+				placeholder: '30 or {{$json.timeout}}',
+				description: 'Maximum time to wait for a message (in seconds). Supports expressions.',
 				required: true,
 			},
 			{
@@ -74,22 +76,24 @@ export class KafkaWaitEvent implements INodeType {
 						name: 'keyFilter',
 						type: 'string',
 						default: '',
-						description: 'Filter messages by key (exact match)',
+						placeholder: 'user-123 or {{$json.userId}}',
+						description: 'Filter messages by key (exact match). Supports expressions.',
 					},
 					{
 						displayName: 'Message Value Filter (JSON Path)',
 						name: 'valueFilter',
 						type: 'string',
 						default: '',
-						placeholder: '$.eventType',
-						description: 'JSONPath expression to filter message content',
+						placeholder: '$.eventType or {{$json.filterPath}}',
+						description: 'JSONPath expression to filter message content. Supports expressions.',
 					},
 					{
 						displayName: 'Expected Value',
 						name: 'expectedValue',
 						type: 'string',
 						default: '',
-						description: 'Expected value for the filter (used with JSON Path)',
+						placeholder: 'user_created or {{$json.expectedEvent}}',
+						description: 'Expected value for the filter (used with JSON Path). Supports expressions.',
 						displayOptions: {
 							show: {
 								valueFilter: [true],
@@ -138,10 +142,40 @@ export class KafkaWaitEvent implements INodeType {
 		for (let i = 0; i < items.length; i++) {
 			try {
 				const credentials = await this.getCredentials('kafka', i);
+
+				// Dynamic parameters - expressions are automatically resolved by n8n
 				const topicName = this.getNodeParameter('topicName', i) as string;
 				const groupId = this.getNodeParameter('groupId', i) as string;
 				const timeoutSeconds = this.getNodeParameter('timeoutSeconds', i) as number;
+
+				// Validate resolved parameters
+				if (!topicName || topicName.trim() === '') {
+					throw new NodeOperationError(
+						this.getNode(),
+						'Topic name cannot be empty after expression evaluation',
+						{ itemIndex: i }
+					);
+				}
+
+				if (!groupId || groupId.trim() === '') {
+					throw new NodeOperationError(
+						this.getNode(),
+						'Group ID cannot be empty after expression evaluation',
+						{ itemIndex: i }
+					);
+				}
+
+				if (typeof timeoutSeconds !== 'number' || timeoutSeconds <= 0) {
+					throw new NodeOperationError(
+						this.getNode(),
+						'Timeout must be a positive number after expression evaluation',
+						{ itemIndex: i }
+					);
+				}
+
 				const readFromBeginning = this.getNodeParameter('readFromBeginning', i) as boolean;
+
+				// Filter options - expressions are automatically resolved by n8n
 				const filterOptions = this.getNodeParameter('filterOptions', i) as {
 					keyFilter?: string;
 					valueFilter?: string;
