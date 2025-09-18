@@ -11,17 +11,17 @@
     "message-queue"
   ],
   "license": "MIT",
-  "homepage": "https://github.com/360teknologi/n8n-kafka-wait-event#readme",
+  "homepage": "https://github.com/halimtuhu/n8n-kafka-wait-event#readme",
   "author": {
-    "name": "360 Teknologi",
-    "email": "dev@360teknologi.com"
+    "name": "halimtuhu",
+    "email": "halimtuhuprasetyo@gmail.com"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/360teknologi/n8n-kafka-wait-event.git"
+    "url": "https://github.com/halimtuhu/n8n-kafka-wait-event.git"
   },
   "bugs": {
-    "url": "https://github.com/360teknologi/n8n-kafka-wait-event/issues"
+    "url": "https://github.com/halimtuhu/n8n-kafka-wait-event/issues"
   },
   "engines": {
     "node": ">=20.15"
